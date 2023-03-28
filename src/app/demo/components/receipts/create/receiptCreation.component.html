@@ -1,0 +1,103 @@
+<app-devotees-search *ngIf="isSearchActive" [isRedirected]="true"
+                     (selectedDevoteeEmitter)="onDevoteeSelection($event)"></app-devotees-search>
+<div class="card" *ngIf="selectedDevoteeData">
+
+    <div class="border-round border-1 surface-border p-4" *ngIf="false">
+        <div class="flex mb-3">
+            <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
+            <div>
+                <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+                <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+                <p-skeleton height=".5rem"></p-skeleton>
+            </div>
+        </div>
+        <p-skeleton width="100%" height="150px"></p-skeleton>
+        <div class="flex justify-content-between mt-3">
+            <p-skeleton width="4rem" height="2rem"></p-skeleton>
+            <p-skeleton width="4rem" height="2rem"></p-skeleton>
+        </div>
+    </div>
+
+    <form [formGroup]="receiptCreationFormGroup">
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+                <label htmlFor="organisation">Organisation</label>
+                <p-dropdown [options]="organisations" optionLabel="OrganisationName" optionValue="CodeForOrganisation"
+                            formControlName="organisation"
+                            (onChange)="onOrganisationChange($event)"
+                            placeholder="Organisation"
+                            [showClear]="true"></p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label htmlFor="receiptCode">Receipt Code</label>
+                <p-dropdown [options]="accountHeads" optionLabel="ReceiptCode" optionValue="ReceiptCode"
+                            formControlName="receiptCode" placeholder="Receipt Code"
+                            [showClear]="true"></p-dropdown>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label htmlFor="amount">Amount</label>
+                <p-inputNumber inputId="amount" placeholder="Amount" formControlName="amount"></p-inputNumber>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label htmlFor="modeOfPayment">Mode Of Payment</label>
+                <p-dropdown [options]="paymentModeOptions" optionLabel="label"
+                            formControlName="modeOfPayment" placeholder="Mode Of Payment"
+                            [showClear]="true"></p-dropdown>
+            </div>
+            <ng-container
+                *ngIf="isAdditionalInformationRequired(receiptCreationFormGroup.controls['modeOfPayment'].value)">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="documentId">Document ID</label>
+                    <input formControlName="documentId" placeholder="Document ID"
+                           pInputText id="documentId" type="text"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="bank">Bank</label>
+                    <input formControlName="bank" placeholder="Bank"
+                           pInputText id="bank" type="text"/>
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="bank"
+                           *ngIf=" (receiptCreationFormGroup.controls['modeOfPayment'].value.key === 'O')">Other
+                        Info</label>
+                    <label htmlFor="bank"
+                           *ngIf="!(receiptCreationFormGroup.controls['modeOfPayment'].value.key === 'O')">Branch</label>
+                    <input formControlName="branch" [placeholder]="getBranchPlaceholder()"
+                           pInputText id="branch" type="text"/>
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="date">Date</label>
+                    <p-calendar placeholder="Date" dateFormat="dd-M-yy" [showIcon]="true"
+                                inputId="date"></p-calendar>
+                </div>
+            </ng-container>
+
+            <div class="field col-12 md:col-12">
+                <label htmlFor="specialInstructions">Special Instructions</label>
+                <textarea rows="2" class="col-12" formControlName="specialInstructions"
+                          placeholder="Special Instructions" pInputTextarea></textarea>
+            </div>
+
+        </div>
+    </form>
+
+    <div class="flex flex-wrap gap-2 justify-content-center">
+        <button pButton pRipple label="Back" class="col-12 md:col-5 mx-4" (click)="onBack()"></button>
+        <button pButton pRipple label="Submit" class="col-12 md:col-5 mx-4" (click)="onSubmit()"></button>
+    </div>
+
+</div>
+
+<p-dialog header="Success" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}"
+          [breakpoints]="{'960px': '75vw'}">
+    <p class="line-height-3 m-0">
+        Receipt has Been Generated Successfully
+    </p>
+    <ng-template pTemplate="footer">
+        <button pButton icon="pi pi-check" (click)="router.navigate(['receipts'])" label="Ok"
+                class="p-button-outlined"></button>
+    </ng-template>
+</p-dialog>

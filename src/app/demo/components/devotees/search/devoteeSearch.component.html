@@ -1,0 +1,151 @@
+<div class="text-900 font-bold text-5xl mb-4 text-center" *ngIf="!isRedirected">Devotee Search</div>
+<div class="text-900 font-bold text-5xl mb-4 text-center" *ngIf="isRedirected">Receipt Create</div>
+
+<div class="card">
+    <h5 class="mb-5" *ngIf="!isRedirected" >Basic Details</h5>
+    <h5 class="mb-5" *ngIf="isRedirected" >Search Devotee</h5>
+    <form [formGroup]="searchFormGroup">
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+                <label htmlFor="firstName">First Name</label>
+                <input formControlName="firstName" placeholder="First Name" pInputText id="firstName" type="text"/>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label htmlFor="lastName">Last Name</label>
+                <input formControlName="lastName" placeholder="Last Name" pInputText id="lastName" type="text"/>
+            </div>
+            <div class="field col-12 md:col-4">
+                <label htmlFor="mobileNumber">Mobile Number</label>
+                <p-inputMask inputId="mobileNumber" placeholder="Mobile Number" slotChar="----------" mask="9999999999"
+                             formControlName="mobileNumber"></p-inputMask>
+            </div>
+            <div class="field col-12 md:col-4">
+                <label htmlFor="aadharNumber">Aadhar Number</label>
+                <p-inputMask inputId="aadharNumber" placeholder="Aadhar Number" slotChar="---- ---- ----"
+                             [unmask]="true" mask="9999 9999 9999" formControlName="aadharNumber"></p-inputMask>
+            </div>
+            <div class="field col-12 md:col-4">
+                <label htmlFor="panNumber">Pan Number</label>
+                <p-inputMask inputId="panNumber" placeholder="Pan Number" slotChar="----------" mask="**********"
+                             formControlName="panNumber"></p-inputMask>
+            </div>
+        </div>
+    </form>
+    <div class="flex flex-wrap gap-2 justify-content-center">
+        <button pButton pRipple label="Reset" class="col-12 md:col-5 mx-4" (click)="onReset()"></button>
+        <button pButton pRipple label="Search" class="col-12 md:col-5 mx-4" (click)="onSearch()"></button>
+    </div>
+</div>
+
+<div class="card" *ngIf="searchResults.length > 0">
+    <h5>Search Results </h5>
+    <p-table #searchTable [value]="searchResults" dataKey="id" [rows]="2" [loading]="loading" [rowHover]="true"
+             styleClass="p-datatable-gridlines" [paginator]="true" (onRowSelect)="devoteeSelection($event)"
+             [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">
+<!--        <ng-template pTemplate="caption">-->
+<!--            <div class="flex justify-content-between flex-column sm:flex-row">-->
+<!--                <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"-->
+<!--                        (click)="clear(searchTable)"></button>-->
+<!--                <span class="p-input-icon-left mb-2">-->
+<!--							<i class="pi pi-search"></i>-->
+<!--							<input pInputText type="text" #filter (input)="onGlobalFilter(searchTable, $event)"-->
+<!--                                   placeholder="Search Keyword" class="w-full"/>-->
+<!--						</span>-->
+<!--            </div>-->
+<!--        </ng-template>-->
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width: 12rem" *ngIf="isRedirected">
+                    <div class="flex justify-content-between align-items-center">
+                        Select
+                    </div>
+                </th>
+
+                <th style="min-width: 12rem" *ngFor="let header of tableHeaders">
+                    <div class="flex justify-content-between align-items-center">
+                        {{camelCaseToWords(header)}}
+                        <!--                        <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>-->
+                    </div>
+                </th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-devotee>
+            <tr>
+                <td *ngIf="isRedirected">
+                    <p-tableRadioButton [value]="devotee"></p-tableRadioButton>
+                </td>
+                <td>
+                    {{devotee.id}}
+                </td>
+                <td>
+                    {{devotee.title + ' ' + devotee.firstname + ' ' + devotee.lastname }}
+                </td>
+                <td>
+                    {{devotee.gothram}}
+                </td>
+                <td>
+                    {{devotee.email}}
+                </td>
+                <td>
+                    {{devotee.mobilePhone}}
+                </td>
+                <td>
+                    {{devotee.homePhone}}
+                </td>
+                <td>
+                    {{devotee.additionalMobilePhone}}
+                </td>
+                <td>
+                    {{devotee.aadhar}}
+                </td>
+                <td>
+                    {{devotee.pan}}
+                </td>
+                <td>
+                    {{devotee.addressLine1}}
+                </td>
+                <td>
+                    {{devotee.addressLine2}}
+                </td>
+                <td>
+                    {{devotee.addressLine3}}
+                </td>
+                <td>
+                    {{devotee.city}}
+                </td>
+                <td>
+                    {{devotee.district}}
+                </td>
+                <td>
+                    {{devotee.state}}
+                </td>
+                <td>
+                    {{devotee.country}}
+                </td>
+                <td>
+                    {{devotee.pincode}}
+                </td>
+                <td>
+                    {{devotee.notes}}
+                </td>
+
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">No devotees found.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="8">Loading customers data. Please wait.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <button *ngIf="selectedDevoteeData" pButton pRipple label="Next" class="col-12 my-3" (click)="onNext()"></button>
+
+</div>
+
+

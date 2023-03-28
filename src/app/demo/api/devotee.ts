@@ -1,0 +1,22 @@
+export interface Devotee {
+    id?: number | null
+    title?: string | null
+    firstname?: string | null
+    lastname?: string | null
+    gothram?: string | null
+    addressLine1?: string | null
+    addressLine2?: string | null
+    addressLine3?: string | null
+    city?: string | null
+    state?: string | null
+    pincode?: string | null
+    country?: string | null
+    email?: string | null
+    district?: string | null
+    homePhone?: string | null
+    mobilePhone?: string | null
+    additionalMobilePhone?: string | null
+    aadhar?: string | null
+    pan?: string | null
+    notes?: string | null
+}

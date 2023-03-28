@@ -1,0 +1,123 @@
+<div class="text-900 font-bold text-5xl mb-4 text-center">Devotee Create</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="mb-5">Basic Details</h5>
+            <form [formGroup]="basicDetailsFormGroup">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-2">
+                        <label htmlFor="title">Title</label>
+                        <p-dropdown [options]="titleDropdownItems"
+                                    optionLabel="value"
+                                    formControlName="title"
+                                    placeholder="Title"
+                                    optionValue="value">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-5">
+                        <label htmlFor="firstName">First Name</label>
+                        <input formControlName="firstName" placeholder="First Name" pInputText id="firstName" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-5">
+                        <label htmlFor="lastName">Last Name</label>
+                        <input formControlName="lastName" placeholder="Last Name" pInputText id="lastName" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-5">
+                        <label htmlFor="gothram">Gothram</label>
+                        <input formControlName="gothram" placeholder="Gothram" pInputText id="gothram" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-5">
+                        <label htmlFor="emailAddress">Email Address</label>
+                        <input formControlName="emailAddress" placeholder="Email Address" pInputText id="emailAddress" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-4" >
+                        <label htmlFor="mobileNumber">Mobile Number</label>
+                        <p-inputMask inputId="mobileNumber" placeholder="Mobile Number" slotChar="----------"  mask="9999999999" formControlName="mobileNumber"></p-inputMask>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="alternativeMobileNumber">Alternative Mobile Number</label>
+                        <p-inputMask inputId="alternativeMobileNumber" placeholder="Alternative Mobile Number" slotChar="----------"  mask="9999999999" formControlName="alternativeMobileNumber"></p-inputMask>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="homePhone">Home Phone</label>
+                        <p-inputMask inputId="homePhone" placeholder="Home Phone" slotChar="----------" mask="9999999999" formControlName="homePhone"></p-inputMask>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="aadharNumber">Aadhar Number</label>
+                        <p-inputMask inputId="aadharNumber" placeholder="Aadhar Number" slotChar="---- ---- ----" mask="9999 9999 9999" formControlName="aadharNumber"></p-inputMask>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label htmlFor="panNumber">Pan Number</label>
+                        <p-inputMask inputId="panNumber" placeholder="Pan Number" slotChar="----------" mask="**********" formControlName="panNumber"></p-inputMask>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card">
+            <h5 class="mb-5">Address Details</h5>
+            <form [formGroup]="addressDetailsFormGroup">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-2">
+                        <label htmlFor="zipCode">Zip Code</label>
+                        <input formControlName="zipCode" placeholder="Zip Code" pInputText id="zipCode" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-12">
+                        <label htmlFor="addressLine1">Address Line 1</label>
+                        <input formControlName="addressLine1" placeholder="Address Line 1" pInputText id="addressLine1" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-12">
+                        <label htmlFor="addressLine2">Address Line 2</label>
+                        <input formControlName="addressLine2" placeholder="Address Line 2" pInputText id="addressLine2" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-">
+                        <label htmlFor="addressLine3">Address Line 3</label>
+                        <input formControlName="addressLine3" placeholder="Address Line 3" pInputText id="addressLine3" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="city">City</label>
+                        <input formControlName="city" placeholder="City" pInputText id="city" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="district">District</label>
+                        <input formControlName="district" placeholder="District" pInputText id="district" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="state">State</label>
+                        <input formControlName="state" placeholder="State" pInputText id="state" type="text"/>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="country">Country</label>
+                        <input formControlName="country" placeholder="Country" pInputText id="country" type="text"/>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+        <div class="card">
+            <h5 class="mb-5">Other Details</h5>
+            <form [formGroup]="otherDetailsFormGroup">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-12">
+                        <label htmlFor="notes">Notes</label>
+                        <textarea rows="2" class="col-12" formControlName="notes"
+                                  placeholder="Notes" pInputTextarea></textarea>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="card flex flex-wrap gap-2 justify-content-center">
+            <button pButton pRipple label="Reset" class="col-12 md:col-5 mx-4" (click)="onReset()"></button>
+            <button pButton pRipple label="Submit" class="col-12 md:col-5 mx-4" (click)="onSubmit()"></button>
+        </div>
+    </div>
+</div>
+<p-dialog header="Success" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
+    <p class="line-height-3 m-0">
+        Devotee has Been Created Successfully
+    </p>
+    <ng-template pTemplate="footer">
+        <button pButton icon="pi pi-check" (click)="router.navigate(['devotees'])" label="Ok" class="p-button-outlined"></button>
+    </ng-template>
+</p-dialog>
